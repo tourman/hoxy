@@ -55,7 +55,17 @@ class ProvisionableRequest {
     this._respProm = task()
     let h = (/https/i).test(opts.protocol) ? https : http
     if (opts.proxy) {
-      opts.agent = new Agent(opts.proxy)
+      if ((/https/i).test(opts.protocol)) {
+        opts.agent = new Agent(opts.proxy)
+      } else {
+        let proxyInfo = url.parse(opts.proxy)
+          , proxyPort = proxyInfo.port
+          , proxyHostname = proxyInfo.hostname
+          , proxyPath = 'http://' + opts.hostname + (opts.port ? ':' + opts.port : '') + opts.path
+        opts.hostname = proxyHostname
+        opts.port = proxyPort
+        opts.path = proxyPath
+      }
     }
     this._writable = h.request(opts, this._respProm.resolve)
     this._writable.on('error', this._respProm.reject)
