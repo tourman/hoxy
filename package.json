@@ -5,7 +5,7 @@
   "description": "Web-hacking proxy API for node",
   "repository": {
     "type": "git",
-    "url": "git@github.com:greim/hoxy.git"
+    "url": "git@github.com:tourman/hoxy.git"
   },
   "main": "./lib/main",
   "scripts": {
